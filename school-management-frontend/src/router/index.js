@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import {API_URL} from "@/utils";
 
-import Register from "@/components/welcome/Register.vue"
-import Login from "@/components/welcome/Login.vue"
 import Welcome from "@/components/Welcome.vue"
-import Inter from "@/components/Inter.vue"
+import Student from "@/components/Student.vue";
+import axios from "axios";
 
 Vue.use(VueRouter)
 
@@ -14,8 +14,8 @@ const routes = [
     component: Welcome
   },
   {
-    path: '/inter',
-    component: Inter
+    path: '/student',
+    component: Student
   }
 
 // import HomeView from '../views/HomeView.vue'
@@ -33,6 +33,37 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  if (to.path === '/') {
+    next()
+    return
+  }
+
+  const token = localStorage.getItem("Token")
+  let tokenFlag = token;
+
+  await axios.post(API_URL + '/check', "", {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Token': token
+    },
+  }).then(({data}) => {
+    tokenFlag = data.status
+  }).catch(() => {
+    tokenFlag = false
+  })
+
+  if(!tokenFlag)
+    // 未登录
+    if(to.path === '/')
+      next()
+    else
+      next('/')
+  else
+    next()
+
 })
 
 export default router

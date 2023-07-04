@@ -8,9 +8,8 @@ import java.util.List;
 @Mapper
 public interface StudentMapper {
 
-    public List<Student> getAllStudent();
+    List<Student> getAllStudent();
 
-    public List<Student> getMaleStudent();
-
+    List<Student> getMaleStudent();
 
 }

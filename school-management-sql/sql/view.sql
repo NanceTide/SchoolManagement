@@ -10,7 +10,7 @@ create view classes_view as
 
 create view students_view as
     select s.student_id, s.student_name, s.gender, s.address, s.birthday, s.enroll, s.nation, c.*
-    from students s inner join classes_view c
+    from students s left join classes_view c
     on s.class_id = c.class_id;
 
 create view grades_view as

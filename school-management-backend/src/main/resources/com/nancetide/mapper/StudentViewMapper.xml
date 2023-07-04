@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nancetide.mapper.StudentViewMapper">
+
+    <select id="getStudentViewByStudentId" resultType="com.nancetide.entity.StudentView">
+        select * from students_view
+        where student_id = #{studentId}
+    </select>
+
+</mapper>

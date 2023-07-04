@@ -24,7 +24,8 @@
 </template>
 
 <script>
-  import {API_URL, login, showError, showSuccess} from "@/net";
+  import {API_URL, showError, showSuccess} from "@/utils";
+  import axios from "axios";
   let vm = null;
 
   export default {
@@ -50,15 +51,35 @@
           return;
         }
 
-        login(API_URL + "/login",
+        // login(API_URL + "/login",
+        //     {
+        //       username: this.form.username,
+        //       password: this.form.password
+        //     },
+        //     (message) => {
+        //       showSuccess(message)
+        //       this.$router.push("/student")
+        //     })
+
+        axios.post(API_URL + '/login',
             {
               username: this.form.username,
               password: this.form.password
             },
-            (message) => {
-              showSuccess(message)
-              this.$router.push("/student")
-            })
+            {
+              headers : {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              }
+            }
+        ).then(({data}) => {
+          if(data.status) {
+            localStorage.setItem('Token', data.data)
+            showSuccess(data.message)
+            this.$router.push("/student")
+          } else {
+            showError(data.message)
+          }
+        }).catch(showError)
 
         this.checkBottom = 'el-icon-check'
       }

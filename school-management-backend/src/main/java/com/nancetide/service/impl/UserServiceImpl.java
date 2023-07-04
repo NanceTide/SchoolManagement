@@ -1,4 +1,4 @@
-package com.nancetide.service.userservice;
+package com.nancetide.service.impl;
 
 import com.nancetide.entity.User;
 import com.nancetide.mapper.UserMapper;

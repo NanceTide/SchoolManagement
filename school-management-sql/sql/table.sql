@@ -49,8 +49,9 @@ create table grades (
     primary key (course_id, student_id)
 );
 
-
-
-
-
+create table users (
+    username char(32) primary key ,
+    password char(32) not null ,
+    access smallint
+)
 

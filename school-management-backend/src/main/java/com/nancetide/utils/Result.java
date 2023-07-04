@@ -9,20 +9,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponseResult<T> {
+public class Result<T> {
 
-    private Integer code;
-    private String msg;
+    private Integer status;
+    private String message;
     private T data;
 
-    public ResponseResult(Integer code, String msg) {
-        this.code = code;
-        this.msg = msg;
+    static public <T> Result<T> success(String message, T data) {
+        return new Result<>(1, message, data);
     }
 
-    public ResponseResult(Integer code, T data) {
-        this.code = code;
-        this.data = data;
+    static public <T> Result<T> error(String message, T data) {
+        return new Result<>(0, message, data);
     }
 
 }

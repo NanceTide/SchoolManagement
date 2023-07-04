@@ -7,7 +7,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import Scene from "@/components/welcome/Scene.vue"
 import Login from "@/components/welcome/Login.vue"
-import Register from "@/components/welcome/Register.vue";
 import Welcome from "@/components/Welcome.vue"
 
 Vue.config.productionTip = false
@@ -15,7 +14,6 @@ Vue.use(ElementUI)
 
 Vue.component("MyScene", Scene)
 Vue.component("MyLogin", Login)
-Vue.component("MyRegister", Register)
 Vue.component("MyWelcome", Welcome)
 
 const vue = new Vue({
