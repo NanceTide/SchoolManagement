@@ -1,13 +1,13 @@
-<script setup>
+<script>
 
 </script>
 
 <template>
   <div>
-    你来到了无人之地！
+    <router-view/>
   </div>
 </template>
 
-<style scoped>
+<style>
 
 </style>

@@ -8,32 +8,32 @@
     </div>
 
     <!--输入框-->
-    <div style="text-align: center; margin: 12vh 12% 0 12%">
-      <el-input v-model="userForm.username" prefix-icon="el-icon-user"></el-input>
-      <br/><br/>
-      <el-input v-model="userForm.password" prefix-icon="el-icon-lock" show-password></el-input>
-    </div>
+    <el-form id="userInput">
+      <el-form-item style="text-align: center; margin: 12vh 12% 0 12%">
+        <el-input v-model="form.username" prefix-icon="el-icon-user"></el-input>
+        <br/><br/>
+        <el-input v-model="form.password" prefix-icon="el-icon-lock" show-password></el-input>
+      </el-form-item>
 
-    <div style="text-align: center; margin-top: 10vh">
-      <el-button :icon="checkBottom" @click="handleLogin" circle></el-button>
-    </div>
+      <el-form-item style="text-align: center; margin-top: 10vh">
+        <el-button :icon="checkBottom" @click="handleLogin" circle></el-button>
+      </el-form-item>
+    </el-form>
 
-<!--    <div style="text-align: center; margin-top: 5vh;">-->
-<!--      <el-link href="/register" :underline="false" style="text-decoration: none; font-size:12px; color:lightgrey; font-family: 黑体,serif">-->
-<!--        忘记密码？-->
-<!--      </el-link>-->
-<!--    </div>-->
   </div>
 </template>
 
 <script>
-  import axios from "axios";
-  import {showError} from "@/net";
+  import {API_URL, login, showError, showSuccess} from "@/net";
+  let vm = null;
 
   export default {
+    created () {
+      vm = this
+    },
     data() {
       return {
-        userForm: {
+        form: {
           username: '',
           password: '',
         },
@@ -41,23 +41,32 @@
       }
     },
     methods: {
+
       handleLogin() {
         this.checkBottom = 'el-icon-loading'
-
-        if(this.userForm.password == null ||
-          this.userForm.username == null ||
-          this.userForm.username === "" ||
-          this.userForm.password === "") {
-          this.checkBottom = 'el-icon-check'
+        if(!this.form.username || !this.form.password) {
           showError('用户名或密码为空')
-          return
+          this.checkBottom = 'el-icon-check'
+          return;
         }
 
-        this.$router.push("/inter")
-        // axios.post("http://localhost:8080", JSON.stringify(user))
+        login(API_URL + "/login",
+            {
+              username: this.form.username,
+              password: this.form.password
+            },
+            (message) => {
+              showSuccess(message)
+              this.$router.push("/student")
+            })
+
+        this.checkBottom = 'el-icon-check'
       }
+
     }
   }
+
+  addEventListener('keydown', (event) => event.key === 'Enter' && vm.handleLogin())
 </script>
 
 <style>
