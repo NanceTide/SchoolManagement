@@ -30,5 +30,9 @@ public class StudentViewController {
         return Result.error("查询失败", null);
     }
 
+    @RequestMapping("/student/selfGrade")
+    public Result<?> studentSelfGrade(@RequestHeader String Token) {
+        String student
+    }
 
 }
