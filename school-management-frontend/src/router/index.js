@@ -51,18 +51,18 @@ router.beforeEach(async (to, from, next) => {
     },
   }).then(({data}) => {
     tokenFlag = data.status
+    if(!tokenFlag)
+      // 未登录
+      if(to.path === '/')
+        next()
+      else
+        next('/')
+    else
+      next()
   }).catch(() => {
     tokenFlag = false
   })
 
-  if(!tokenFlag)
-    // 未登录
-    if(to.path === '/')
-      next()
-    else
-      next('/')
-  else
-    next()
 
 })
 

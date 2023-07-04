@@ -1,10 +1,15 @@
 package com.nancetide.service;
 
+import com.nancetide.entity.GradeView;
 import com.nancetide.entity.StudentView;
 import lombok.NonNull;
 
-public interface StudentViewService {
+import java.util.List;
 
-    StudentView studentGetSelfInfo(@NonNull String studentId);
+public interface StudentService {
+
+    StudentView getStudentById(@NonNull String studentId);
+
+    List<GradeView> getGradeListByStudentId(@NonNull String studentId);
 
 }

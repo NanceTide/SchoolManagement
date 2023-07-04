@@ -13,4 +13,16 @@
         where gender = 1;
     </select>
 
+    <select id="getStudentByCriteria" resultType="com.nancetide.entity.Student">
+        select * from students
+        <where>
+            <if test="studentId != null">
+                student_id = #{studentId}
+            </if>
+            <if test="studentName != null">
+                and student_name = #{studentName}
+            </if>
+        </where>
+    </select>
+
 </mapper>

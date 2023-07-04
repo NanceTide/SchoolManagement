@@ -45,13 +45,20 @@ create table courses (
 create table grades (
     course_id char(16) references courses(course_id),
     student_id char(16) references students(student_id),
-    grade smallint check(grade >= 0 and grade <= 100) not null,
+    grade smallint check(grade >= 0 and grade <= 100 or grade is null) ,
     primary key (course_id, student_id)
 );
 
+-- 用户(用户名, 密码, 权限)
 create table users (
     username char(32) primary key ,
     password char(32) not null ,
     access smallint
+);
+
+-- 异动申请(学号, 待转专业)
+create table applications (
+    student_id char(16) primary key references students(student_id),
+    major_id char(16) references majors(major_id)
 )
 

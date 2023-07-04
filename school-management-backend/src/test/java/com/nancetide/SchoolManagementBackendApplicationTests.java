@@ -2,7 +2,9 @@ package com.nancetide;
 
 import com.nancetide.mapper.StudentMapper;
 import com.nancetide.mapper.UserMapper;
+import com.nancetide.service.MajorService;
 import com.nancetide.service.UserService;
+import com.nancetide.service.impl.MajorServiceImpl;
 import com.nancetide.utils.Jwt;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ class SchoolManagementBackendApplicationTests {
     @Autowired StudentMapper studentMapper;
     @Autowired UserMapper userMapper;
     @Autowired UserService userService;
+    @Autowired MajorServiceImpl majorService;
 
     @Test
     void testGetAllStudents() {
@@ -55,5 +58,11 @@ class SchoolManagementBackendApplicationTests {
     void testUserServiceAdminUpdate() {
         System.out.println(userService.adminUpdateUser("root", "0000"));
     }
+
+    @Test
+    void test1(){
+        System.out.println(majorService.getMajorByStudentId("2021010101001"));
+    }
+
 
 }

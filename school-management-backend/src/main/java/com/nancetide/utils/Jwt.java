@@ -29,4 +29,14 @@ public class Jwt {
                 .getBody();
     }
 
+    static public String jwtToUsername(String jwt) {
+        Claims claims = Jwt.decodeJwt(jwt);
+        return (String) claims.get("username");
+    }
+
+    static public String jwtToAccess(String jwt) {
+        Claims claims = Jwt.decodeJwt(jwt);
+        return (String) claims.get("access");
+    }
+
 }

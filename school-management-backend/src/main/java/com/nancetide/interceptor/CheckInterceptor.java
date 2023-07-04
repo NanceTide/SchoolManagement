@@ -1,4 +1,4 @@
-package interceptor;
+package com.nancetide.interceptor;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.nancetide.utils.Jwt;

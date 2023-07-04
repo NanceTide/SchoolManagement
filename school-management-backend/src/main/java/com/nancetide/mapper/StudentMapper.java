@@ -12,4 +12,6 @@ public interface StudentMapper {
 
     List<Student> getMaleStudent();
 
+    List<Student> getStudentByCriteria(String studentId, String studentName);
+
 }

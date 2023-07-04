@@ -1,2 +1,14 @@
-package com.nancetide.entity;public class Grade {
+package com.nancetide.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Grade {
+    private String courseId;
+    private String studentId;
+    private Short grade;
 }

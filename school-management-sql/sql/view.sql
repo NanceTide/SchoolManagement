@@ -17,3 +17,8 @@ create view grades_view as
     select s.student_id, s.student_name, c.*, g.grade
     from (students s inner join grades g on s.student_id = g.student_id)
         inner join courses c on g.course_id = c.course_id;
+
+create view applications_view as
+    select s.student_id, s.student_name, m.major_id, m.major_name, m.department_id, m.department_name
+    from (students s inner join applications a on s.student_id = a.student_id)
+        inner join majors_view m on a.major_id = m.major_id;

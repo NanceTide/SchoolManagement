@@ -3,11 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.nancetide.mapper.ApplicationMapper">
+<mapper namespace="com.nancetide.mapper.ApplicationViewMapper">
 
-    <select id="getApplicationByStudentId" resultType="com.nancetide.entity.Student">
-        select * from applications
+    <select id="getApplicationViewByStudentId" resultType="com.nancetide.entity.ApplicationView">
+        select * from applications_view
         where student_id = #{studentId}
     </select>
+
+    <insert id="insertApplication">
+        insert into applications values
+            (#{studentId}, #{majorId})
+    </insert>
+
 
 </mapper>

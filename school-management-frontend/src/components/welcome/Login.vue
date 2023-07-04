@@ -2,7 +2,7 @@
   <div style="width: 400px; background-color: white; position:relative">
     <!--标题-->
     <div style="text-align: center; margin-top: 20vh">
-      <div style="font-size: 30px; font-family: 黑体,serif">大学学籍管理系统</div>
+      <div style="font-size: 30px; font-family: 黑体,serif">学生学籍管理系统</div>
       <br/>
       <div style="font-size: 20px; font-family: 黑体,serif">登录</div>
     </div>
@@ -27,10 +27,14 @@
   import {API_URL, showError, showSuccess} from "@/utils";
   import axios from "axios";
   let vm = null;
+    function enterToLogin(event) {
+      event.key === 'Enter' && vm.handleLogin()
+    }
 
   export default {
     created () {
-      vm = this
+      vm = this;
+      addEventListener('keydown', enterToLogin)
     },
     data() {
       return {
@@ -51,16 +55,6 @@
           return;
         }
 
-        // login(API_URL + "/login",
-        //     {
-        //       username: this.form.username,
-        //       password: this.form.password
-        //     },
-        //     (message) => {
-        //       showSuccess(message)
-        //       this.$router.push("/student")
-        //     })
-
         axios.post(API_URL + '/login',
             {
               username: this.form.username,
@@ -75,6 +69,7 @@
           if(data.status) {
             localStorage.setItem('Token', data.data)
             showSuccess(data.message)
+            removeEventListener('keydown', enterToLogin)
             this.$router.push("/student")
           } else {
             showError(data.message)
@@ -87,7 +82,6 @@
     }
   }
 
-  addEventListener('keydown', (event) => event.key === 'Enter' && vm.handleLogin())
 </script>
 
 <style>
