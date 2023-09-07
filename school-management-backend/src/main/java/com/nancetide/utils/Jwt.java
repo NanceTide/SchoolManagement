@@ -10,7 +10,7 @@ import java.util.Map;
 public class Jwt {
 
     static private final String signKey = "B1p87gOWQ736zJOADgAG6sfj1qruwKd6O6PjJ0AXYkrIcjkwr5iWtvjb4WlcAB9j";
-    static private final Integer expire = 30 * 60 * 1000;
+    static private final Integer expire = 30 * (60 * 1000);
 
     @SuppressWarnings("all")
     static public String generateJwt(Map<String, Object> claims) {
@@ -34,9 +34,10 @@ public class Jwt {
         return (String) claims.get("username");
     }
 
-    static public String jwtToAccess(String jwt) {
+    static public Short jwtToAccess(String jwt) {
         Claims claims = Jwt.decodeJwt(jwt);
-        return (String) claims.get("access");
+        Double access = (Double) claims.get("access");
+        return access.shortValue();
     }
 
 }

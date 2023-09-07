@@ -73,11 +73,4 @@ public class MajorServiceImpl implements MajorService {
                 studentViewMapper.getStudentViewByStudentId(studentId).get(0).getMajorId());
     }
 
-    @Override
-    // 根据学生号获取某学生所在院系的所有专业的列表，但该学生所在的专业不在列表中
-    public List<MajorView> getExceptMajorListShareDepartmentByStudentId(@NonNull String studentId) {
-        MajorView majorView = getMajorByStudentId(studentId);
-        return getMajorListShareDepartmentByStudentId(studentId).stream().filter(item -> !item.equals(majorView)).toList();
-    }
-
 }

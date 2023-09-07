@@ -1,10 +1,7 @@
 package com.nancetide.service.impl;
 
-import com.nancetide.entity.ApplicationView;
 import com.nancetide.entity.GradeView;
-import com.nancetide.entity.MajorView;
 import com.nancetide.entity.StudentView;
-import com.nancetide.mapper.ApplicationViewMapper;
 import com.nancetide.mapper.GradeViewMapper;
 import com.nancetide.mapper.StudentViewMapper;
 import com.nancetide.service.StudentService;
@@ -19,13 +16,11 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentViewMapper studentViewMapper;
     private final GradeViewMapper gradeViewMapper;
-    private final ApplicationViewMapper applicationMapper;
 
     @Autowired
-    public StudentServiceImpl(StudentViewMapper studentViewMapper, GradeViewMapper gradeViewMapper, ApplicationViewMapper applicationMapper) {
+    public StudentServiceImpl(StudentViewMapper studentViewMapper, GradeViewMapper gradeViewMapper) {
         this.studentViewMapper = studentViewMapper;
         this.gradeViewMapper = gradeViewMapper;
-        this.applicationMapper = applicationMapper;
     }
 
     @Override
@@ -39,6 +34,21 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<GradeView> getGradeListByStudentId(@NonNull String studentId) {
         return gradeViewMapper.getGradeViewByStudentId(studentId);
+    }
+
+    @Override
+    public List<StudentView> getStudentPage(@NonNull Integer page, @NonNull Integer limit) {
+        return studentViewMapper.getStudentViewPage((page - 1) * limit, limit);
+    }
+
+    @Override
+    public Integer getTotalStudentNumber() {
+        return studentViewMapper.getTotalStudent();
+    }
+
+    @Override
+    public Integer getTotalStudentPage(@NonNull Integer limit) {
+        return (int) Math.ceil((double) getTotalStudentNumber() / limit);
     }
 
 }

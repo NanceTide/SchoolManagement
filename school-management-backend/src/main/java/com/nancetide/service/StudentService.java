@@ -12,4 +12,10 @@ public interface StudentService {
 
     List<GradeView> getGradeListByStudentId(@NonNull String studentId);
 
+    List<StudentView> getStudentPage(@NonNull Integer page, @NonNull Integer limit);
+
+    Integer getTotalStudentNumber();
+
+    Integer getTotalStudentPage(Integer limit);
+
 }

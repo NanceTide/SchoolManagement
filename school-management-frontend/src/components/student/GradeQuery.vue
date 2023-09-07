@@ -30,7 +30,8 @@ export default {
         courseName : '未指定',
         credit : '未指定',
         grade : '成绩未出'
-      }]
+      }],
+
 
     }
   },

@@ -3,7 +3,9 @@ import VueRouter from 'vue-router'
 import {API_URL} from "@/utils";
 
 import Welcome from "@/components/Welcome.vue"
-import Student from "@/components/Student.vue";
+import Student from "@/components/Student.vue"
+import Admin from "@/components/Admin.vue"
+import Inter from "@/components/Inter.vue"
 import axios from "axios";
 
 Vue.use(VueRouter)
@@ -16,6 +18,14 @@ const routes = [
   {
     path: '/student',
     component: Student
+  },
+  {
+    path: '/admin',
+    component: Admin
+  },
+  {
+    path: '/inter',
+    component: Inter
   }
 
 // import HomeView from '../views/HomeView.vue'
@@ -36,34 +46,30 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  if (to.path === '/') {
+  if (to.path === '/')
     next()
-    return
-  }
+  else if(to.path === '/inter' && from.path === '/') {
+    const res = await axios.post(API_URL + '/check', "", {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Token': localStorage.getItem("Token")
+      },
+    })
+    const data = res.data;
 
-  const token = localStorage.getItem("Token")
-  let tokenFlag = token;
-
-  await axios.post(API_URL + '/check', "", {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Token': token
-    },
-  }).then(({data}) => {
-    tokenFlag = data.status
-    if(!tokenFlag)
-      // 未登录
-      if(to.path === '/')
-        next()
-      else
-        next('/')
+    if(!data.status)
+      return false
+    else if(data.data === 1)
+      next('/student')
+    else if(data.data === 0)
+      next('/admin')
     else
-      next()
-  }).catch(() => {
-    tokenFlag = false
-  })
+      return false
 
-
+  } else if(from.path === '/inter' && (to.path === '/student' || to.path === '/admin'))
+    next()
+  else
+    next()
 })
 
 export default router

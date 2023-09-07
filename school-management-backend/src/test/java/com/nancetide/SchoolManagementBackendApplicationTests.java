@@ -1,7 +1,10 @@
 package com.nancetide;
 
+import com.nancetide.mapper.DepartmentMapper;
 import com.nancetide.mapper.StudentMapper;
+import com.nancetide.mapper.StudentViewMapper;
 import com.nancetide.mapper.UserMapper;
+import com.nancetide.service.DepartmentService;
 import com.nancetide.service.MajorService;
 import com.nancetide.service.UserService;
 import com.nancetide.service.impl.MajorServiceImpl;
@@ -20,6 +23,8 @@ class SchoolManagementBackendApplicationTests {
     @Autowired UserMapper userMapper;
     @Autowired UserService userService;
     @Autowired MajorServiceImpl majorService;
+    @Autowired DepartmentService departmentService;
+    @Autowired StudentViewMapper studentViewMapper;
 
     @Test
     void testGetAllStudents() {
@@ -64,5 +69,9 @@ class SchoolManagementBackendApplicationTests {
         System.out.println(majorService.getMajorByStudentId("2021010101001"));
     }
 
+    @Test
+    void test2() {
+        studentViewMapper.getStudentViewPage(0, 10).forEach(System.out::println);
+    }
 
 }

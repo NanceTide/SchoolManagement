@@ -10,4 +10,13 @@
         where student_id = #{studentId}
     </select>
 
+    <select id="getStudentViewPage" resultType="com.nancetide.entity.StudentView">
+        select * from students_view
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="getTotalStudent" resultType="java.lang.Integer">
+        select count(student_id) from students_view
+    </select>
+
 </mapper>

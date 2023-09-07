@@ -10,13 +10,13 @@
     <!--输入框-->
     <el-form id="userInput">
       <el-form-item style="text-align: center; margin: 12vh 12% 0 12%">
-        <el-input v-model="form.username" prefix-icon="el-icon-user"></el-input>
+        <el-input v-model="form.username" prefix-icon="el-icon-user"/>
         <br/><br/>
-        <el-input v-model="form.password" prefix-icon="el-icon-lock" show-password></el-input>
+        <el-input v-model="form.password" prefix-icon="el-icon-lock" show-password/>
       </el-form-item>
 
       <el-form-item style="text-align: center; margin-top: 10vh">
-        <el-button :icon="checkBottom" @click="handleLogin" circle></el-button>
+        <el-button :icon="checkBottom" @click="handleLogin" circle/>
       </el-form-item>
     </el-form>
 
@@ -70,7 +70,7 @@
             localStorage.setItem('Token', data.data)
             showSuccess(data.message)
             removeEventListener('keydown', enterToLogin)
-            this.$router.push("/student")
+            this.$router.push("/inter").catch(err => true)
           } else {
             showError(data.message)
           }

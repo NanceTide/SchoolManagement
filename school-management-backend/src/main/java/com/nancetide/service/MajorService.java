@@ -19,5 +19,4 @@ public interface MajorService {
 
     List<MajorView> getMajorListShareDepartmentByStudentId(@NonNull String studentId);
 
-    List<MajorView> getExceptMajorListShareDepartmentByStudentId(@NonNull String studentId);
 }

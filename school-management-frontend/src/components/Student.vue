@@ -17,8 +17,8 @@ export default {
     }
   },
   methods: {
-    handleSelect(key) {
-      this.activeIndex = key
+    handleSelect(index) {
+      this.activeIndex = index
     }
   }
 }
@@ -33,7 +33,7 @@ export default {
           <el-menu-item index="StudentInfo">学生信息</el-menu-item>
           <el-menu-item index="GradeQuery">成绩查询</el-menu-item>
           <el-menu-item index="ChangeApplication">异动申请</el-menu-item>
-          <el-menu-item index="AccountManagement">账户管理</el-menu-item>
+          <el-menu-item index="AccountManagement">密码修改</el-menu-item>
         </el-menu>
 
       </el-main>

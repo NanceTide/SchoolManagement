@@ -35,8 +35,9 @@ public class LoginController {
     }
 
     @RequestMapping("/check")
-    public Result<?> check() {
-        return Result.success("已登录", null);
+    public Result<?> check(@RequestHeader String token) {
+        Short access = Jwt.jwtToAccess(token);
+        return Result.success("已登录", access);
     }
 
 }
