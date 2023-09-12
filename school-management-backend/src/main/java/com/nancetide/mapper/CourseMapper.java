@@ -13,4 +13,10 @@ public interface CourseMapper {
 
     Integer getTotalCourse();
 
+    Integer updateCourseById(@NonNull String courseId, String courseName, Integer credit);
+
+    Integer insertCourse(@NonNull String courseId, @NonNull String courseName, Short credit);
+
+    Integer deleteCourseById(@NonNull String courseId);
+
 }

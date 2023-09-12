@@ -1,7 +1,6 @@
 package com.nancetide.service;
 
 import com.nancetide.entity.Department;
-import com.nancetide.entity.StudentView;
 import lombok.NonNull;
 
 import java.util.List;
@@ -19,5 +18,11 @@ public interface DepartmentService {
     Integer getTotalDepartmentNumber();
 
     Integer getTotalDepartmentPage(Integer limit);
+
+    Integer updateDepartmentById(@NonNull String departmentId, String departmentName);
+
+    Integer insertDepartment(@NonNull String departmentId, @NonNull String departmentName);
+
+    Integer deleteDepartmentById(@NonNull String departmentId);
 
 }

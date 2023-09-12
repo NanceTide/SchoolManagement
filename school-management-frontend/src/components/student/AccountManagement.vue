@@ -5,8 +5,6 @@ import {API_URL, showError, showSuccess} from "@/utils";
 export default {
   created () {
 
-
-
   },
   data() {
     return {

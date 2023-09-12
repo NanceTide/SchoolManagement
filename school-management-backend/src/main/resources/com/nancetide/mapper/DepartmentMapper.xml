@@ -23,4 +23,24 @@
         select count(department_id) from departments
     </select>
 
+    <update id="updateDepartmentById">
+        update departments
+        <set>
+            <if test="departmentName != null and departmentName != ''">
+                department_name = #{departmentName}
+            </if>
+        </set>
+        where department_id = #{departmentId}
+    </update>
+
+    <insert id="insertDepartment">
+        insert into departments(department_id, department_name) values
+        (#{departmentId}, #{departmentName})
+    </insert>
+
+    <delete id="deleteDepartmentById">
+        delete from departments
+        where department_id = #{departmentId}
+    </delete>
+
 </mapper>

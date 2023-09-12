@@ -21,23 +21,39 @@ public class StudentController {
     private final ApplicationService applicationService;
     private final DepartmentService departmentService;
     private final UserService userService;
+    private final GradeService gradeService;
 
     @Autowired
-    public StudentController(StudentService studentService, MajorService majorService, ApplicationService applicationService, DepartmentService departmentService, UserService userService) {
+    public StudentController(
+            StudentService studentService,
+            MajorService majorService,
+            ApplicationService applicationService,
+            DepartmentService departmentService,
+            UserService userService,
+            GradeService gradeService
+    ) {
         this.studentService = studentService;
         this.majorService = majorService;
         this.applicationService = applicationService;
         this.departmentService = departmentService;
         this.userService = userService;
+        this.gradeService = gradeService;
+    }
+
+    private String validateStudentTokenAndGetId(String token) {
+        String studentId;
+        try {studentId = Jwt.jwtToUsername(token);}
+        catch (Exception e) {return null;}
+        if(Jwt.jwtToAccess(token) == 0)
+            return null;
+        return studentId;
     }
 
     @RequestMapping("/student/info")
     public Result<?> studentSelfInfo(@RequestHeader String token) {
-        String studentId;
-        try {studentId = Jwt.jwtToUsername(token);}
-        catch (Exception e) {return Result.error("未登录", null);}
-        if(Jwt.jwtToAccess(token) == 0)
-            return Result.error("管理员账户不能访问学生接口", null);
+        String studentId = validateStudentTokenAndGetId(token);
+        if(studentId == null)
+            return Result.error("未登录或不能访问学生接口", null);
 
         StudentView studentView = studentService.getStudentById(studentId);
         if(studentView != null)
@@ -47,13 +63,11 @@ public class StudentController {
 
     @RequestMapping("/student/grade")
     public Result<?> studentSelfGrade(@RequestHeader String token) {
-        String studentId;
-        try {studentId = Jwt.jwtToUsername(token);}
-        catch (Exception e) {return Result.error("未登录", null);}
-        if(Jwt.jwtToAccess(token) == 0)
-            return Result.error("管理员账户不能访问学生接口", null);
+        String studentId = validateStudentTokenAndGetId(token);
+        if(studentId == null)
+            return Result.error("未登录或不能访问学生接口", null);
 
-        List<GradeView> gradeViewList = studentService.getGradeListByStudentId(studentId);
+        List<GradeView> gradeViewList = gradeService.getGradeListByStudentId(studentId);
         if(!gradeViewList.isEmpty())
             return Result.success("查询成绩成功", gradeViewList);
         return Result.error("查询成绩失败", null);
@@ -61,11 +75,9 @@ public class StudentController {
 
     @RequestMapping("/student/application")
     public Result<?> studentSelfApplication(@RequestHeader String token) {
-        String studentId;
-        try {studentId = Jwt.jwtToUsername(token);}
-        catch (Exception e) {return Result.error("未登录", null);}
-        if(Jwt.jwtToAccess(token) == 0)
-            return Result.error("管理员账户不能访问学生接口", null);
+        String studentId = validateStudentTokenAndGetId(token);
+        if(studentId == null)
+            return Result.error("未登录或不能访问学生接口", null);
 
         ApplicationView application = applicationService.getApplicationByStudentId(studentId);
         if(application != null)
@@ -75,11 +87,9 @@ public class StudentController {
 
     @RequestMapping("/student/major")
     public Result<?> major(@RequestHeader String token) {
-        String studentId;
-        try {studentId = Jwt.jwtToUsername(token);}
-        catch (Exception e) {return Result.error("未登录", null);}
-        if(Jwt.jwtToAccess(token) == 0)
-            return Result.error("管理员账户不能访问学生接口", null);
+        String studentId = validateStudentTokenAndGetId(token);
+        if(studentId == null)
+            return Result.error("未登录或不能访问学生接口", null);
 
         List<MajorView> majorViewList = majorService.getMajorListShareDepartmentByStudentId(studentId);
         MajorView majorView = majorService.getMajorByStudentId(studentId);
@@ -90,14 +100,12 @@ public class StudentController {
 
     @RequestMapping("/student/application/major")
     public Result<?> applicationMajor(@RequestHeader String token, @RequestParam String majorTo) {
-        if(majorTo == null || majorTo.equals(""))
+        if(majorTo == null || majorTo.isEmpty())
             return Result.error("专业为空", null);
 
-        String studentId;
-        try {studentId = Jwt.jwtToUsername(token);}
-        catch (Exception e) {return Result.error("未登录", null);}
-        if(Jwt.jwtToAccess(token) == 0)
-            return Result.error("管理员账户不能访问学生接口", null);
+        String studentId = validateStudentTokenAndGetId(token);
+        if(studentId == null)
+            return Result.error("未登录或不能访问学生接口", null);
 
         if(applicationService.insertApplication(studentId, majorTo))
             return Result.success("申请成功", majorTo);
@@ -106,11 +114,9 @@ public class StudentController {
 
     @RequestMapping("/student/department")
     public Result<?> department(@RequestHeader String token) {
-        String studentId;
-        try {studentId = Jwt.jwtToUsername(token);}
-        catch (Exception e) {return Result.error("未登录", null);}
-        if(Jwt.jwtToAccess(token) == 0)
-            return Result.error("管理员账户不能访问学生接口", null);
+        String studentId = validateStudentTokenAndGetId(token);
+        if(studentId == null)
+            return Result.error("未登录或不能访问学生接口", null);
 
         List<Department> departmentList = departmentService.getDepartmentList();
         Department department = departmentService.getDepartmentByStudentId(studentId);
@@ -128,12 +134,14 @@ public class StudentController {
     }
 
     @RequestMapping("/student/account")
-    public Result<?> account(@RequestHeader String token, @RequestParam String oldPassword, @RequestParam String newPassword) {
-        String studentId;
-        try {studentId = Jwt.jwtToUsername(token);}
-        catch (Exception e) {return Result.error("未登录", null);}
-        if(Jwt.jwtToAccess(token) == 0)
-            return Result.error("管理员账户不能访问学生接口", null);
+    public Result<?> account(
+            @RequestHeader String token,
+            @RequestParam String oldPassword,
+            @RequestParam String newPassword
+    ) {
+        String studentId = validateStudentTokenAndGetId(token);
+        if(studentId == null)
+            return Result.error("未登录或不能访问学生接口", null);
 
         if(userService.studentUpdateUser(studentId, oldPassword, newPassword.substring(0, Math.min(newPassword.length(), 33))))
             return Result.success("密码修改成功", null);

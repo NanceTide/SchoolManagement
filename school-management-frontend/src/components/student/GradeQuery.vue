@@ -32,9 +32,9 @@ export default {
         grade : '成绩未出'
       }],
 
-
     }
   },
+
   methods: {
 
   }

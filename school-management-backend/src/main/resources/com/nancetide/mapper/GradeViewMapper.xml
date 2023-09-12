@@ -10,4 +10,9 @@
         where student_id = #{studentId}
     </select>
 
+    <select id="getGradeViewByCourseId" resultType="com.nancetide.entity.GradeView">
+        select * from grades_view
+        where course_id = #{courseId}
+    </select>
+
 </mapper>

@@ -12,5 +12,7 @@ public interface GradeViewMapper {
 
     List<GradeView> getGradeViewByStudentId(@NonNull String studentId);
 
+    List<GradeView> getGradeViewByCourseId(@NonNull String courseId);
+
 }
 

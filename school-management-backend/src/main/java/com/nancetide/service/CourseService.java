@@ -13,4 +13,10 @@ public interface CourseService {
 
     Integer getTotalCoursePage(@NonNull Integer limit);
 
+    Integer updateCourseById(@NonNull String courseId, String courseName, Integer credit);
+
+    Integer insertCourse(@NonNull String courseId, @NonNull String courseName, @NonNull Short credit);
+
+    Integer deleteCourseById(@NonNull String courseId);
+
 }

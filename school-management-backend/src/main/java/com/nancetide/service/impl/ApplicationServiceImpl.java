@@ -3,7 +3,6 @@ package com.nancetide.service.impl;
 import com.nancetide.entity.ApplicationView;
 import com.nancetide.mapper.ApplicationViewMapper;
 import com.nancetide.service.ApplicationService;
-import com.nancetide.service.StudentService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

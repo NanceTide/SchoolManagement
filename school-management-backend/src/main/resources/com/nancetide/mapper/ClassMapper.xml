@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nancetide.mapper.ClassMapper">
+
+    <update id="updateClassById">
+        update classes
+        <set>
+            <if test="className != null">
+                class_name = #{className},
+            </if>
+            <if test="majorId != null">
+                major_id = #{majorId}
+            </if>
+        </set>
+        where class_id = #{classId}
+    </update>
+
+    <delete id="deleteClassById">
+        delete from classes
+        where class_id = #{classId}
+    </delete>
+
+    <insert id="insertClass">
+        insert into classes(class_id, class_name, major_id) values
+        (#{classId}, #{className}, #{majorId})
+    </insert>
+
+</mapper>

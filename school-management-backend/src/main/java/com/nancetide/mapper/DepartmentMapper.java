@@ -17,4 +17,10 @@ public interface DepartmentMapper {
 
     Integer getTotalDepartment();
 
+    Integer updateDepartmentById(@NonNull String departmentId, String departmentName);
+
+    Integer deleteDepartmentById(@NonNull String departmentId);
+
+    Integer insertDepartment(@NonNull String departmentId, @NonNull String departmentName);
+
 }

@@ -17,4 +17,27 @@
         </where>
     </select>
 
+    <update id="updateMajorById">
+        update majors
+        <set>
+            <if test="majorName != null">
+                major_name = #{majorName},
+            </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId}
+            </if>
+        </set>
+        where major_id = #{majorId}
+    </update>
+
+    <insert id="insertMajor">
+        insert into majors(major_id, major_name, department_id) values
+        (#{majorId}, #{majorName}, #{departmentId})
+    </insert>
+
+    <delete id="deleteMajorById">
+        delete from majors
+        where major_id = #{majorId}
+    </delete>
+
 </mapper>

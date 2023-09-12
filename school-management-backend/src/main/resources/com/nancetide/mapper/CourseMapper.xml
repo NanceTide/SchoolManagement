@@ -14,4 +14,27 @@
         select count(course_id) from courses
     </select>
 
+    <update id="updateCourseById">
+        update courses
+        <set>
+            <if test="courseName != null and courseName != ''">
+                course_name = #{courseName},
+            </if>
+            <if test="credit != null">
+                credit = #{credit}
+            </if>
+        </set>
+        where course_id = #{courseId}
+    </update>
+
+    <insert id="insertCourse">
+        insert into courses(course_id, course_name, credit) values
+        (#{courseId}, #{courseName}, #{credit})
+    </insert>
+
+    <delete id="deleteCourseById">
+        delete from courses
+        where course_id = #{courseid}
+    </delete>
+
 </mapper>

@@ -57,5 +57,21 @@ public class DepartmentServiceImpl implements DepartmentService {
         return (int) Math.ceil((double) getTotalDepartmentNumber() / limit);
     }
 
+    @Override
+    public Integer updateDepartmentById(@NonNull String departmentId, String departmentName) {
+        if(departmentId.isEmpty())
+            return 0;
+        return departmentMapper.updateDepartmentById(departmentId, departmentName);
+    }
+
+    @Override
+    public Integer insertDepartment(@NonNull String departmentId, @NonNull String departmentName) {
+        return departmentMapper.insertDepartment(departmentId, departmentName);
+    }
+
+    @Override
+    public Integer deleteDepartmentById(@NonNull String departmentId) {
+        return departmentMapper.deleteDepartmentById(departmentId);
+    }
 
 }

@@ -15,7 +15,9 @@ public class CourseServiceImpl implements CourseService {
     private final CourseMapper courseMapper;
 
     @Autowired
-    public CourseServiceImpl(CourseMapper courseMapper) {
+    public CourseServiceImpl(
+            CourseMapper courseMapper
+    ) {
         this.courseMapper = courseMapper;
     }
 
@@ -30,6 +32,22 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Integer getTotalCoursePage(@NonNull Integer limit) {
         return (int) Math.ceil((double) getTotalCourseNumber() / limit);
+    }
+
+    @Override
+    public Integer updateCourseById(@NonNull String courseId, String courseName, Integer credit) {
+        if(courseId.isEmpty())
+            return 0;
+        return courseMapper.updateCourseById(courseId, courseName, credit);
+    }
+
+    @Override
+    public Integer insertCourse(@NonNull String courseId, @NonNull String courseName, @NonNull Short credit) {
+        return courseMapper.insertCourse(courseId, courseName, credit);
+    }
+
+    public Integer deleteCourseById(@NonNull String courseId) {
+        return courseMapper.deleteCourseById(courseId);
     }
 
 }

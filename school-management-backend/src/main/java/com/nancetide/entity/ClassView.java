@@ -14,4 +14,5 @@ public class ClassView {
     private String majorName;
     private String departmentId;
     private String departmentName;
+    private Short size;
 }

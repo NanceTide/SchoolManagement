@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nancetide.mapper.ClassViewMapper">
+
+    <select id="getClassViewListByDepartmentId" resultType="com.nancetide.entity.ClassView">
+        select * from classes_view
+        where department_id = #{departmentId}
+    </select>
+
+    <select id="getClassViewListByMajorId" resultType="com.nancetide.entity.ClassView">
+        select * from classes_view
+        where major_id = #{majorId}
+    </select>
+
+</mapper>

@@ -19,4 +19,10 @@ public interface MajorService {
 
     List<MajorView> getMajorListShareDepartmentByStudentId(@NonNull String studentId);
 
+    Integer updateMajorById(@NonNull String majorId, String majorName, String departmentId);
+
+    Integer deleteMajorById(@NonNull String majorId);
+
+    Integer insertMajor(@NonNull String majorId, @NonNull String majorName, String departmentId);
+
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nancetide.mapper.GradeMapper">
+
+    <update id="updateGradeById">
+        update grades
+        <set>
+            <if test="grade != null">
+                grade = #{grade}
+            </if>
+        </set>
+        where course_id = #{courseId} and student_id = #{studentId}
+    </update>
+
+    <delete id="deleteGradeById">
+        delete from grades
+        where student_id = #{studentId} and course_id = #{courseId}
+    </delete>
+
+    <insert id="insertGrade">
+        insert into grades(course_id, student_id, grade) values
+        (#{courseId}, #{studentId}, #{grade});
+    </insert>
+</mapper>

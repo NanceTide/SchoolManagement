@@ -1,11 +1,9 @@
 package com.nancetide;
 
-import com.nancetide.mapper.DepartmentMapper;
 import com.nancetide.mapper.StudentMapper;
 import com.nancetide.mapper.StudentViewMapper;
 import com.nancetide.mapper.UserMapper;
 import com.nancetide.service.DepartmentService;
-import com.nancetide.service.MajorService;
 import com.nancetide.service.UserService;
 import com.nancetide.service.impl.MajorServiceImpl;
 import com.nancetide.utils.Jwt;
