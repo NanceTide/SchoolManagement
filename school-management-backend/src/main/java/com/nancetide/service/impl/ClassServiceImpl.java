@@ -33,12 +33,12 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public List<ClassView> getClassListByDepartmentId(@NonNull String departmentId) {
-        return classViewMapper.getClassViewListByDepartmentId(departmentId);
+        return classViewMapper.getClassViewByDepartmentId(departmentId);
     }
 
     @Override
     public List<ClassView> getClassListByMajorId(@NonNull String majorId) {
-        return classViewMapper.getClassViewListByMajorId(majorId);
+        return classViewMapper.getClassViewByMajorId(majorId);
     }
 
     @Override

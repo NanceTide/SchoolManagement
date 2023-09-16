@@ -19,4 +19,12 @@
         select count(student_id) from students_view
     </select>
 
+    <select id="getAllStudentView" resultType="com.nancetide.entity.StudentView">
+        select * from students_view
+    </select>
+
+    <select id="getStudentViewSearch" resultType="com.nancetide.entity.StudentView">
+        select * from students_view where student_name like concat('%', #{like}, '%') or student_id like concat('%', #{like}, '%');
+    </select>
+
 </mapper>

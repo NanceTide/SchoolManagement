@@ -19,4 +19,8 @@ public interface CourseService {
 
     Integer deleteCourseById(@NonNull String courseId);
 
+    List<Course> getCourseSearch(@NonNull String like);
+
+    List<Course> getAllCourse();
+
 }

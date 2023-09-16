@@ -35,7 +35,9 @@ export default {
 
       courseId: '',
       courseName: '',
-      credit: ''
+      credit: '',
+
+      searchStr: '',
     }
   },
   methods: {
@@ -48,7 +50,6 @@ export default {
         params: {
           page : nowPage
         }
-
       }).then(({data}) => {
         if (!data)
           showError("后端服务器存在问题")
@@ -160,6 +161,53 @@ export default {
       }).catch(showError)
     },
 
+    searchCourse() {
+      if(this.searchStr == null)
+        this.pageChange(this.nowPage)
+
+      axios.post(API_URL + '/admin/course/search', {
+        like: this.searchStr
+      }, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Token': localStorage.getItem('Token')
+        }
+      }).then(({data}) => {
+        if(!data)
+          showError("后端服务器存在问题")
+        if(data.status) {
+          this.dataList = data.data
+          this.total = this.dataList.length
+        } else
+          showError(data.message)
+      }).catch(showError)
+    },
+
+    downloadFile() {
+      axios.get(API_URL + "/admin/course/file", {
+        responseType: 'blob',
+        headers: {
+          'Token': localStorage.getItem('Token')
+        }
+      }).then(response => {
+        const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '课程信息.xls';
+        document.body.appendChild(a);
+        a.click();
+
+        // 释放对象URL资源
+        window.URL.revokeObjectURL(url);
+      })
+          .catch(error => {
+            showError('下载文件失败');
+          });
+    },
+
   }
 }
 </script>
@@ -169,8 +217,17 @@ export default {
   <div style="margin: 5%">
 
     <el-card shadow="hover" style="margin-left: 15%; margin-right: 15%">
-      <div style="text-align: center; font-size: 20px; margin-bottom: 20px">课程管理</div>
-      <el-button style="float: right" type="text" @click="openInsertDialog">新增</el-button>
+      <div style="text-align: center; font-size: 20px">课程管理</div>
+
+      <div style="margin: 8px 0 8px 0">
+        <el-button style="float: left" @click="downloadFile">导出为 Excel</el-button>
+        <el-button style="float: right" @click="openInsertDialog">新增</el-button>
+        <div style="text-align: -webkit-center">
+          <el-input placeholder="请输入内容" v-model="searchStr" class="input-with-select" style="width: 300px">
+            <el-button slot="append" icon="el-icon-search" @click="searchCourse"></el-button>
+          </el-input>
+        </div>
+      </div>
 
       <el-table :data="dataList" stripe style="width: 100%" border>
         <el-table-column prop="courseId" label="课程号" />

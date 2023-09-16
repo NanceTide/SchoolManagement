@@ -13,6 +13,17 @@
         <el-input v-model="form.username" prefix-icon="el-icon-user"/>
         <br/><br/>
         <el-input v-model="form.password" prefix-icon="el-icon-lock" show-password/>
+
+        <br/><br/>
+        <div class="content-box">
+          <div class="verify-box">
+            <slide-verify ref="slideRef" :l="42" :r="10"
+                          :w="304" :h="100" :imgs="images" slider-text="向右滑动"
+                          @success="onSuccess" @fail="onFail"
+                          @fulfilled="onRefreshComplete" @again="onAgain">
+            </slide-verify>
+          </div>
+        </div>
       </el-form-item>
 
       <el-form-item style="text-align: center; margin-top: 10vh">
@@ -26,6 +37,7 @@
 <script>
   import {API_URL, showError, showSuccess} from "@/utils";
   import axios from "axios";
+
   let vm = null;
     function enterToLogin(event) {
       event.key === 'Enter' && vm.handleLogin()
@@ -38,17 +50,30 @@
     },
     data() {
       return {
+        images: [
+            require('../../assets/check.png')
+        ],
+
         form: {
           username: '',
           password: '',
         },
-        checkBottom: 'el-icon-check'
+
+        checkBottom: 'el-icon-check',
+
+        isSuccess: false
       }
     },
+
     methods: {
 
       handleLogin() {
         this.checkBottom = 'el-icon-loading'
+        if(!this.isSuccess) {
+          showError('未通过验证')
+          this.checkBottom = 'el-icon-check'
+          return;
+        }
         if(!this.form.username || !this.form.password) {
           showError('用户名或密码为空')
           this.checkBottom = 'el-icon-check'
@@ -77,8 +102,23 @@
         }).catch(showError)
 
         this.checkBottom = 'el-icon-check'
-      }
+      },
 
+      onSuccess(){
+        this.isSuccess = true;
+      },
+
+      onFail(){
+        this.isSuccess = false;
+      },
+
+      onRefreshComplete(){
+        this.isSuccess = false;
+      },
+
+      onAgain() {
+        this.$refs.slideRef.reset();
+      }
     }
   }
 
@@ -87,3 +127,4 @@
 <style>
 
 </style>
+

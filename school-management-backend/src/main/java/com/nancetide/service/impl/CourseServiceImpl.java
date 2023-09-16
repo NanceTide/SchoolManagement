@@ -50,4 +50,14 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.deleteCourseById(courseId);
     }
 
+    @Override
+    public List<Course> getCourseSearch(@NonNull String like) {
+        return courseMapper.getCourseSearch(like);
+    }
+
+    @Override
+    public List<Course> getAllCourse() {
+        return courseMapper.getAllCourse();
+    }
+
 }

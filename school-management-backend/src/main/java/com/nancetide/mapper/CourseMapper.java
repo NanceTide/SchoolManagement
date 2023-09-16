@@ -1,4 +1,4 @@
-package com.nancetide.mappe;
+package com.nancetide.mapper;
 
 import com.nancetide.entity.Course;
 import lombok.NonNull;
@@ -18,5 +18,9 @@ public interface CourseMapper {
     Integer insertCourse(@NonNull String courseId, @NonNull String courseName, Short credit);
 
     Integer deleteCourseById(@NonNull String courseId);
+
+    List<Course> getCourseSearch(@NonNull String like);
+
+    List<Course> getAllCourse();
 
 }

@@ -1,8 +1,6 @@
 package com.nancetide.service.impl;
 
-import com.nancetide.entity.GradeView;
 import com.nancetide.entity.StudentView;
-import com.nancetide.mapper.GradeViewMapper;
 import com.nancetide.mapper.StudentMapper;
 import com.nancetide.mapper.StudentViewMapper;
 import com.nancetide.service.StudentService;
@@ -85,6 +83,16 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Integer deleteStudentById(@NonNull String studentId) {
         return studentMapper.deleteStudentById(studentId);
+    }
+
+    @Override
+    public List<StudentView> getAllStudent() {
+        return studentViewMapper.getAllStudentView();
+    }
+
+    @Override
+    public List<StudentView> getStudentSearch(@NonNull String like) {
+        return studentViewMapper.getStudentViewSearch(like);
     }
 
 }

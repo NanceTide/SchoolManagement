@@ -10,10 +10,8 @@
         where student_id = #{studentId}
     </select>
 
-    <insert id="insertApplication">
-        insert into applications values
-            (#{studentId}, #{majorId})
-    </insert>
-
+    <select id="getAllApplicationView" resultType="com.nancetide.entity.ApplicationView">
+        select * from applications_view
+    </select>
 
 </mapper>

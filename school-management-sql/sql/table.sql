@@ -3,7 +3,7 @@ create database school_management;
 
 -- 院系(院系号, 院系名)
 create table departments (
-    department_id char(16) primary key ,
+    department_id char(16) primary key,
     department_name char(24) not null
 );
 
@@ -51,8 +51,8 @@ create table grades (
 
 -- 用户(用户名, 密码, 权限)
 create table users (
-    username char(32) primary key ,
-    password char(32) not null ,
+    username char(32) primary key,
+    password char(32) not null,
     access smallint
 );
 

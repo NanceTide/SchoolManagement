@@ -1,4 +1,4 @@
-package com.nancetide.util;
+package com.nancetide.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

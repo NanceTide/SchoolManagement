@@ -1,4 +1,4 @@
-package com.nancetide.mappe;
+package com.nancetide.mapper;
 
 import com.nancetide.entity.StudentView;
 import lombok.NonNull;
@@ -14,5 +14,9 @@ public interface StudentViewMapper {
     List<StudentView> getStudentViewPage(@NonNull Integer offset, @NonNull Integer limit);
 
     Integer getTotalStudent();
+
+    List<StudentView> getAllStudentView();
+
+    List<StudentView> getStudentViewSearch(@NonNull String like);
 
 }

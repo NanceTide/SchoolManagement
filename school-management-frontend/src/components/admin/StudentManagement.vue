@@ -33,7 +33,9 @@ export default {
       enroll: '',
       nation: '',
       address: '',
-      classId: ''
+      classId: '',
+
+      searchStr: ''
     }
   },
 
@@ -192,6 +194,53 @@ export default {
       }).catch(showError)
     },
 
+    downloadFile() {
+      axios.get(API_URL + "/admin/student/file", {
+        responseType: 'blob',
+        headers: {
+          'Token': localStorage.getItem('Token')
+        }
+      }).then(response => {
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+            const url = window.URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '学生信息.xls';
+            document.body.appendChild(a);
+            a.click();
+
+            // 释放对象URL资源
+            window.URL.revokeObjectURL(url);
+          })
+          .catch(error => {
+            showError('下载文件失败');
+          });
+    },
+
+    searchStudent() {
+      if(this.searchStr == null)
+        this.pageChange(this.nowPage)
+
+      axios.post(API_URL + '/admin/student/search', {
+        like: this.searchStr
+      }, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Token': localStorage.getItem('Token')
+        }
+      }).then(({data}) => {
+        if(!data)
+          showError("后端服务器存在问题")
+        if(data.status) {
+          this.dataList = data.data
+          this.total = this.dataList.length
+        } else
+          showError(data.message)
+      }).catch(showError)
+    }
+
   }
 }
 </script>
@@ -204,7 +253,21 @@ export default {
 
       <div style="text-align: center; font-size: 20px">学生管理</div>
 
-      <el-button style="float: right" type="text" @click="openInsertDialog">新增</el-button>
+<!--      <el-button style="float: right" type="text" @click="openInsertDialog">新增</el-button>-->
+<!--      <el-button type="text" @click="downloadFile">导出为 Excel</el-button>-->
+<!--      <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" style="width: 300px; margin: 0 auto; position: absolute">-->
+<!--        <el-button slot="append" icon="el-icon-search"></el-button>-->
+<!--      </el-input>-->
+
+      <div style="margin: 8px 0 8px 0">
+        <el-button style="float: left" @click="downloadFile">导出为 Excel</el-button>
+        <el-button style="float: right" @click="openInsertDialog">新增</el-button>
+        <div style="text-align: -webkit-center">
+          <el-input placeholder="请输入内容" v-model="searchStr" class="input-with-select" style="width: 300px">
+            <el-button slot="append" icon="el-icon-search" @click="searchStudent"></el-button>
+          </el-input>
+        </div>
+      </div>
 
       <el-table :data="dataList" stripe style="width: 100%" border>
         <el-table-column fixed prop="studentId" label="学号" />
@@ -215,7 +278,7 @@ export default {
         <el-table-column prop="enroll" :min-width="80" label="入学年份" />
         <el-table-column prop="nation" label="民族" />
         <el-table-column prop="departmentName" label="院系"/>
- serv        <el-table-column prop="majorName" label="专业" />
+        <el-table-column prop="majorName" label="专业" />
         <el-table-column prop="className" label="班级" />
 
         <el-table-column fixed="right" :width="310" label="操作">

@@ -5,12 +5,12 @@
 
 <mapper namespace="com.nancetide.mapper.ClassViewMapper">
 
-    <select id="getClassViewListByDepartmentId" resultType="com.nancetide.entity.ClassView">
+    <select id="getClassViewByDepartmentId" resultType="com.nancetide.entity.ClassView">
         select * from classes_view
         where department_id = #{departmentId}
     </select>
 
-    <select id="getClassViewListByMajorId" resultType="com.nancetide.entity.ClassView">
+    <select id="getClassViewByMajorId" resultType="com.nancetide.entity.ClassView">
         select * from classes_view
         where major_id = #{majorId}
     </select>

@@ -120,8 +120,8 @@ export default {
 
     openInsertDialog() {
       this.insertDialogVisible = true
-      this.studentId = ''
-      this.courseId = ''
+      this.studentId = this.inStudentId
+      this.courseId = this.inCourseId
       this.grade = ''
     },
 

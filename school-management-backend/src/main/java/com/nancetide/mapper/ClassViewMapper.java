@@ -1,4 +1,4 @@
-package com.nancetide.mappe;
+package com.nancetide.mapper;
 
 import com.nancetide.entity.ClassView;
 import lombok.NonNull;

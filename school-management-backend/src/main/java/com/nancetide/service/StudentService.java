@@ -41,4 +41,8 @@ public interface StudentService {
 
     Integer deleteStudentById(@NonNull String studentId);
 
+    List<StudentView> getAllStudent();
+
+    List<StudentView> getStudentSearch(@NonNull String like);
+
 }

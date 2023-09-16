@@ -4,9 +4,16 @@ import com.nancetide.entity.*;
 import com.nancetide.service.*;
 import com.nancetide.utils.Jwt;
 import com.nancetide.utils.Result;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.List;
@@ -20,6 +27,7 @@ public class AdminController {
     private final GradeService gradeService;
     private final MajorService majorService;
     private final ClassService classService;
+    private final ApplicationService applicationService;
 
     @Autowired
     public AdminController(
@@ -28,7 +36,8 @@ public class AdminController {
             DepartmentService departmentService,
             GradeService gradeService,
             MajorService majorService,
-            ClassService classService
+            ClassService classService,
+            ApplicationService applicationService
     ) {
         this.studentService = studentService;
         this.courseService = courseService;
@@ -36,6 +45,7 @@ public class AdminController {
         this.gradeService = gradeService;
         this.majorService = majorService;
         this.classService = classService;
+        this.applicationService = applicationService;
     }
 
     private Result<?> validateAdminToken(String token) {
@@ -103,12 +113,15 @@ public class AdminController {
     }
 
     @RequestMapping("/admin/student/search")
-    public Result<?> studentSearch(@RequestHeader String token, @RequestParam String studentName) {
+    public Result<?> studentSearch(@RequestHeader String token, @RequestParam String like) {
         Result<?> validationResult = validateAdminToken(token);
         if(validationResult != null)
             return validationResult;
 
-        return Result.success("", null);
+        List<StudentView> studentViewList = studentService.getStudentSearch(like);
+        if(studentViewList != null)
+            return Result.success("查询成功", studentViewList);
+        return Result.error("查询失败", null);
     }
 
     @RequestMapping("/admin/course/list")
@@ -451,6 +464,120 @@ public class AdminController {
         if(classService.deleteClassById(classId) == 0)
             return Result.error("删除失败", null);
         return Result.success("删除成功", null);
+    }
+
+    @RequestMapping("/admin/application/confirm")
+    public Result<?> applicationConfirm(
+            @RequestHeader String token,
+            @RequestParam String studentId,
+            @RequestParam String classId
+    ) {
+        Result<?> validationResult = validateAdminToken(token);
+        if(validationResult != null)
+            return validationResult;
+
+        if(applicationService.confirmApplication(studentId, classId))
+            return Result.success("异动已审批", null);
+        return Result.error("异动审批失败", null);
+    }
+
+    @RequestMapping("/admin/application/cancel")
+    public Result<?> applicationCancel(
+            @RequestHeader String token,
+            @RequestParam String studentId
+    ) {
+        Result<?> validationResult = validateAdminToken(token);
+        if(validationResult != null)
+            return validationResult;
+
+        if(applicationService.cancelApplication(studentId))
+            return Result.success("异动已取消", null);
+        return Result.error("异动取消失败", null);
+    }
+
+    @RequestMapping("/admin/application/list")
+    public Result<?> applicationList(@RequestHeader String token) {
+        Result<?> validationResult = validateAdminToken(token);
+        if(validationResult != null)
+            return validationResult;
+
+        return Result.success("成功", applicationService.getAllApplication());
+    }
+
+    @RequestMapping("/admin/student/file")
+    public void studentFile(@RequestHeader String token, HttpServletResponse response) throws IOException {
+        if(validateAdminToken(token) != null)
+            return;
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        Sheet sheet = workbook.createSheet("学生信息");
+
+        List<StudentView> studentList = studentService.getAllStudent();
+        int rowNum = 0;
+
+        for (StudentView student : studentList) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(student.getStudentId());
+            row.createCell(1).setCellValue(student.getStudentName());
+            row.createCell(2).setCellValue(student.getGender() == 0 ? "女" : "男");
+            row.createCell(3).setCellValue(student.getEnroll().getValue());
+            row.createCell(4).setCellValue(student.getBirthday().toString());
+            row.createCell(5).setCellValue(student.getAddress());
+            row.createCell(6).setCellValue(student.getNation());
+            row.createCell(7).setCellValue(student.getDepartmentName());
+            row.createCell(8).setCellValue(student.getMajorName());
+            row.createCell(9).setCellValue(student.getClassName());
+            row.createCell(10).setCellValue(student.getDepartmentId());
+            row.createCell(11).setCellValue(student.getMajorId());
+            row.createCell(12).setCellValue(student.getClassId());
+        }
+
+        String fileName = "学生信息.xls";
+        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+        OutputStream outputStream = response.getOutputStream();
+        workbook.write(outputStream);
+        outputStream.close();
+    }
+
+    @RequestMapping("/admin/course/search")
+    public Result<?> courseSearch(@RequestHeader String token, @RequestParam String like) {
+        Result<?> validationResult = validateAdminToken(token);
+        if(validationResult != null)
+            return validationResult;
+
+        List<Course> courseList = courseService.getCourseSearch(like);
+        if(courseList != null)
+            return Result.success("查询成功", courseList);
+        return Result.error("查询失败", null);
+    }
+
+    @RequestMapping("/admin/course/file")
+    public void courseFile(@RequestHeader String token, HttpServletResponse response) throws IOException {
+        if(validateAdminToken(token) != null)
+            return;
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        Sheet sheet = workbook.createSheet("课程信息");
+
+        List<Course> courseList = courseService.getAllCourse();
+        int rowNum = 0;
+
+        for (Course course : courseList) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(course.getCourseId());
+            row.createCell(1).setCellValue(course.getCourseName());
+            row.createCell(2).setCellValue(course.getCredit());
+        }
+
+        String fileName = "课程信息.xls";
+        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+        OutputStream outputStream = response.getOutputStream();
+        workbook.write(outputStream);
+        outputStream.close();
     }
 
 }

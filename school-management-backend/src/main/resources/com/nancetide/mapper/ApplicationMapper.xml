@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nancetide.mapper.ApplicationMapper">
+
+    <delete id="deleteApplication">
+        delete from applications
+        where student_id = #{studentId}
+    </delete>
+
+    <insert id="insertApplication">
+        insert into applications values
+            (#{studentId}, #{majorId})
+    </insert>
+
+    <insert id="confirmApplication">
+
+    </insert>
+
+</mapper>

@@ -37,4 +37,12 @@
         where course_id = #{courseid}
     </delete>
 
+    <select id="getCourseSearch" resultType="com.nancetide.entity.Course">
+        select * from courses where course_id like concat('%', #{like}, '%') or course_name like concat('%', #{like}, '%');
+    </select>
+
+    <select id="getAllCourse" resultType="com.nancetide.entity.Course">
+        select * from courses
+    </select>
+
 </mapper>

@@ -79,7 +79,7 @@ INSERT INTO grades (course_id, student_id, grade) VALUES
 
 -- 用户表数据示例
 INSERT INTO users (username, password, access) VALUES
-    ('root', '0000', '0'),
+    ('admin', '0000', '0'),
     ('2021010101001', '0000', '1'),
     ('2021010101002', '0000', '1'),
     ('2021010102001', '0000', '1'),

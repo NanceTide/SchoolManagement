@@ -1,4 +1,4 @@
-package com.nancetide.util;
+package com.nancetide.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

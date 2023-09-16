@@ -210,9 +210,9 @@ export default {
 
     openInsertMajorDialog() {
       this.insertMajorDialogVisible = true
-      this.majorId = ''
+      this.majorId = this.departmentId + 'XX'
       this.majorName = ''
-      this.shareDepartmentId = ''
+      this.shareDepartmentId = this.departmentId
     },
 
     insertMajor() {
@@ -234,7 +234,9 @@ export default {
           showError("后端服务器存在问题")
         if(data.status) {
           showSuccess("新增成功")
-          this.openMajorDialog(this.departmentId)
+          this.openMajorDialog( {
+            departmentId: this.departmentId
+          })
           this.insertMajorDialogVisible = false
         }
         else
@@ -256,7 +258,7 @@ export default {
         if(data.status) {
           showSuccess("删除成功")
           this.openMajorDialog({
-            majorId: this.majorId
+            departmentId: this.departmentId
           })
         }
         else
@@ -320,9 +322,9 @@ export default {
 
     openInsertClassDialog() {
       this.insertClassDialogVisible = true
-      this.classId = ''
+      this.classId = this.majorId + 'XX'
       this.className = ''
-      this.shareMajorId = ''
+      this.shareMajorId = this.majorId
     },
 
     insertClass() {
@@ -330,7 +332,7 @@ export default {
         showError("未填写完全")
         return
       }
-      axios.post(API_URL + '/admin/major/insert', {
+      axios.post(API_URL + '/admin/class/insert', {
         classId: this.classId,
         className: this.className,
         majorId: this.shareMajorId
@@ -385,7 +387,7 @@ export default {
   <div style="margin: 5%">
 
     <el-card shadow="hover" style="margin-left: 15%; margin-right: 15%">
-      <div style="text-align: center; font-size: 20px; margin-bottom: 20px">院系管理</div>
+      <div style="text-align: center; font-size: 20px">院系管理</div>
       <el-button style="float: right" type="text" @click="openInsertDepartmentDialog">新增</el-button>
 
       <el-table :data="dataList" stripe style="width: 100%" border>
