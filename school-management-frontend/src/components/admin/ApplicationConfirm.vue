@@ -1,12 +1,11 @@
-<script>
+<script setup>
 
 </script>
 
 <template>
-
-
+  $END$
 </template>
 
-<style>
+<style scoped>
 
 </style>

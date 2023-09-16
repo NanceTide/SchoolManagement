@@ -1,4 +1,4 @@
-package com.nancetide.mapper;
+package com.nancetide.mappe;
 
 import com.nancetide.entity.Major;
 import lombok.NonNull;

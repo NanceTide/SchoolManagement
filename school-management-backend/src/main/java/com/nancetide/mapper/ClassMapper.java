@@ -1,4 +1,4 @@
-package com.nancetide.mapper;
+package com.nancetide.mappe;
 
 import lombok.NonNull;
 import org.apache.ibatis.annotations.Mapper;

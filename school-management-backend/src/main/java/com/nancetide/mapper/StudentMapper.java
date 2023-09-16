@@ -1,9 +1,8 @@
-package com.nancetide.mapper;
+package com.nancetide.mappe;
 
 import com.nancetide.entity.Student;
 import lombok.NonNull;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 
 import java.time.LocalDate;
 import java.time.Year;

@@ -1,4 +1,4 @@
-package com.nancetide.entity;
+package com.nancetide.entit;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

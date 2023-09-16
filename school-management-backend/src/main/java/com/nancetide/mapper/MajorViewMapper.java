@@ -1,4 +1,4 @@
-package com.nancetide.mapper;
+package com.nancetide.mappe;
 
 import com.nancetide.entity.MajorView;
 import org.apache.ibatis.annotations.Mapper;

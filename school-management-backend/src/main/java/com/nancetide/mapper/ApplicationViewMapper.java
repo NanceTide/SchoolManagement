@@ -1,4 +1,4 @@
-package com.nancetide.mapper;
+package com.nancetide.mappe;
 
 import com.nancetide.entity.ApplicationView;
 import lombok.NonNull;
@@ -11,6 +11,6 @@ public interface ApplicationViewMapper {
 
     List<ApplicationView> getApplicationViewByStudentId(@NonNull String StudentId);
 
-    Integer insertApplication(@NonNull String studentId, @NonNull String majorId);
+    List<ApplicationView> getAllApplicationView();
 
 }
